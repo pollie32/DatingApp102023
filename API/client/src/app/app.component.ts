@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'; // Added for HttpClient
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,19 +6,19 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  title = 'Dating App'
-  users: any;
-  
-  constructor(private http: HttpClient) {}
+export class AppComponent implements OnInit {
+  title = 'Dating app'; // Added initializer for title
+  users: any; // Added for HttpClient
 
-ngOnInit(): void {
-  this.http.get('https://localhost:5001/api/users').subscribe({ // This is an observable
-    next: response => this.users = response,
-    error: error => console.log(error),
-    complete: () => console.log('Request has been completed')
+  constructor(private http: HttpClient) { } // Added for HttpClient (and added to imports in app.module.ts
+
+
+  ngOnInit(): void {
+    this.http.get('https://localhost:5001/api/users').subscribe({
+      next: response => this.users = response,
+      error: err => console.log(err),
+      complete: () => console.log('Request has completed')
   })
 }
-
 
 }

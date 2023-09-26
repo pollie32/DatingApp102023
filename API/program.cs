@@ -1,4 +1,5 @@
 using API.Data;
+using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,15 +8,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+    });
+});
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCors();
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.MapControllers();
 
