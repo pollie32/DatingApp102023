@@ -1,10 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
+import { Member } from '../_models/members';
+import { inject } from '@angular/core';
+import { MembersService } from '../_services/members.service';
+ 
+export const memberDetailedResolver: ResolveFn<Member> = (route:ActivatedRouteSnapshot) => {
+  return inject(MembersService).getMember(route.paramMap.get('username')!)
+};
